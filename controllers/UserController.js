@@ -5,12 +5,13 @@
  */
 
 const JwtGenerator = require('../services/JwtGenerator.js');
+const PasswordEncryptor = require('../services/PasswordEncryptor.js');
+const PasswordComparer = require('../services/PasswordComparer.js');
 const RequestController = require('../controllers/RequestContoller.js');
 const UserCreator = require('../services/UserCreator.js');
 const UserFinder = require('../services/UserFinder.js');
 const UserNameValidator = require('../validators/UserNameValidator.js');
 const UserEmailValidator = require('../validators/UserEmailValidator.js');
-const bcrypt = require('bcryptjs');
 
 module.exports = class UserController {
 
@@ -45,9 +46,7 @@ module.exports = class UserController {
                     RequestController.sendError(res, 'An user with that email already exists.');
 
                 // Encrypt user password
-                const salt = bcrypt.genSaltSync(10);
-                const encryptedPassword = bcrypt.hashSync(data.password, salt);
-                data.password = encryptedPassword;
+                data.password = PasswordEncryptor.encryptPassword(data.password);
 
                 // Create the User
                 UserCreator.createUser(req.body, function(newUser) {
@@ -83,7 +82,7 @@ module.exports = class UserController {
 
     static getUser(req, res) {
 
-        // try {
+        try {
 
             /**
              * For get a User, we need his email and his password
@@ -109,7 +108,7 @@ module.exports = class UserController {
                     RequestController.sendError(res, 'Any user exists with that email.');
 
                 // Compare passwords to check if they match
-                if(!bcrypt.compareSync(data.password, user.password))
+                if(!PasswordComparer.comparePasswords(data.password, user.password))
                     RequestController.sendError(res, 'Wrong password.');
 
                 // Create a JWT to the created User
@@ -129,11 +128,11 @@ module.exports = class UserController {
             });
 
 
-        // } catch (error) {
+        } catch (error) {
 
-        //     RequestController.sendError(res, error);
+            RequestController.sendError(res, error);
 
-        // }
+        }
 
     }
 
