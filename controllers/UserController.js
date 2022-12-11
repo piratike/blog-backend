@@ -4,11 +4,12 @@
  * 
  */
 
+const JwtGenerator = require('../services/JwtGenerator.js');
 const UserCreator = require('../services/UserCreator.js');
 const UserFinder = require('../services/UserFinder.js');
 const bcrypt = require('bcryptjs');
 
-module.exports = class User {
+module.exports = class UserController {
 
     static createNewUser(req, res) {
 
@@ -66,14 +67,100 @@ module.exports = class User {
                             Message: "Something went wrong while creating the user."
                         });
 
-                    return res.send({
-                        Result: "Success",
-                        Message: newUser
+                    // Create a JWT to the created User
+                    const token = JwtGenerator.generateJwt(user, function(token) {
+
+                        const userToSend = {
+                            id: user._id,
+                            name: user.name,
+                            email: user.email,
+                            token: token
+                        };
+    
+                        return res.send({
+                            Result: "Success",
+                            Message: userToSend
+                        });
+    
                     });
 
                 });
 
             });
+
+        } catch (error) {
+
+            return res.send({
+                Result: "Error",
+                Message: error
+            });
+
+        }
+
+    }
+
+    static getUser(req, res) {
+
+        try {
+
+            /**
+             * For get a User, we need his email and his password
+             * This is like a Login, only the user data will be 
+             * given if you provide his credentials.
+             */
+
+            const data = req.body;
+            const email = req.params.userEmail;
+
+            // Check if all data needed is there
+            if(!email || !data.password)
+                return res.send({
+                    Result: "Error",
+                    Message: "Some needed data not received."
+                });
+
+            // Check if data is how it should be
+            if(!email.match(/^[\w\.]+@([\w-]+\.)+[\w-]{2,4}$/g))
+                return res.send({
+                    Result: "Error",
+                    Message: "Email should be a valid email address."
+                });
+
+            // Check if exists a user with that email
+            UserFinder.findUserByEmail(email, function(user) {
+
+                if(!user)
+                    return res.send({
+                        Result: "Error",
+                        Message: "Any user exists with that email."
+                    });
+
+                // Compare passwords to check if they match
+                if(!bcrypt.compareSync(data.password, user.password))
+                    return res.send({
+                        Result: "Error",
+                        Message: "Wrong password."
+                    });
+
+                // Create a JWT to the created User
+                const token = JwtGenerator.generateJwt(user, function(token) {
+
+                    const userToSend = {
+                        id: user._id,
+                        name: user.name,
+                        email: user.email,
+                        token: token
+                    };
+
+                    return res.send({
+                        Result: "Success",
+                        Message: userToSend
+                    });
+
+                });
+
+            });
+
 
         } catch (error) {
 
