@@ -8,6 +8,8 @@ const JwtGenerator = require('../services/JwtGenerator.js');
 const RequestController = require('../controllers/RequestContoller.js');
 const UserCreator = require('../services/UserCreator.js');
 const UserFinder = require('../services/UserFinder.js');
+const UserNameValidator = require('../validators/UserNameValidator.js');
+const UserEmailValidator = require('../validators/UserEmailValidator.js');
 const bcrypt = require('bcryptjs');
 
 module.exports = class UserController {
@@ -30,10 +32,10 @@ module.exports = class UserController {
                 RequestController.sendError(res, 'Some needed data not received.');
 
             // Check if data is how it should be
-            if(!data.name.match(/^([A-Za-z]{3,})+$/g))
+            if(!UserNameValidator.isValidName(data.name))
                 RequestController.sendError(res, 'Name should use 3 or more letters.');
 
-            if(!data.email.match(/^[\w\.]+@([\w-]+\.)+[\w-]{2,4}$/g))
+            if(!UserEmailValidator.isValidEmail(data.email))
                 RequestController.sendError(res, 'Email should be a valid email address.');
 
             // Check if exists a user with that email
@@ -81,7 +83,7 @@ module.exports = class UserController {
 
     static getUser(req, res) {
 
-        try {
+        // try {
 
             /**
              * For get a User, we need his email and his password
@@ -97,7 +99,7 @@ module.exports = class UserController {
                 RequestController.sendError(res, 'Some needed data not received.');
 
             // Check if data is how it should be
-            if(!email.match(/^[\w\.]+@([\w-]+\.)+[\w-]{2,4}$/g))
+            if(!UserEmailValidator.isValidEmail(email))
                 RequestController.sendError(res, 'Email should be a valid email address.');
 
             // Check if exists a user with that email
@@ -127,11 +129,11 @@ module.exports = class UserController {
             });
 
 
-        } catch (error) {
+        // } catch (error) {
 
-            RequestController.sendError(res, error);
+        //     RequestController.sendError(res, error);
 
-        }
+        // }
 
     }
 
