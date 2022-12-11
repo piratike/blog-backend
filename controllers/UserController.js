@@ -5,6 +5,7 @@
  */
 
 const JwtGenerator = require('../services/JwtGenerator.js');
+const RequestController = require('../controllers/RequestContoller.js');
 const UserCreator = require('../services/UserCreator.js');
 const UserFinder = require('../services/UserFinder.js');
 const bcrypt = require('bcryptjs');
@@ -26,32 +27,20 @@ module.exports = class UserController {
 
             // Check if all data needed is there
             if(!data.name || !data.email || !data.password)
-                return res.send({
-                    Result: "Error",
-                    Message: "Some needed data not received."
-                });
+                RequestController.sendError(res, 'Some needed data not received.');
 
             // Check if data is how it should be
             if(!data.name.match(/^([A-Za-z]{3,})+$/g))
-                return res.send({
-                    Result: "Error",
-                    Message: "Name should use 3 or more letters."
-                });
+                RequestController.sendError(res, 'Name should use 3 or more letters.');
 
             if(!data.email.match(/^[\w\.]+@([\w-]+\.)+[\w-]{2,4}$/g))
-                return res.send({
-                    Result: "Error",
-                    Message: "Email should be a valid email address."
-                });
+                RequestController.sendError(res, 'Email should be a valid email address.');
 
             // Check if exists a user with that email
             UserFinder.findUserByEmail(data.email, function(user) {
 
                 if(user)
-                    return res.send({
-                        Result: "Error",
-                        Message: "An user with that email already exists."
-                    });
+                    RequestController.sendError(res, 'An user with that email already exists.');
 
                 // Encrypt user password
                 const salt = bcrypt.genSaltSync(10);
@@ -62,10 +51,7 @@ module.exports = class UserController {
                 UserCreator.createUser(req.body, function(newUser) {
 
                     if(!newUser)
-                        return res.send({
-                            Result: "Error",
-                            Message: "Something went wrong while creating the user."
-                        });
+                        RequestController.sendError(res, 'Something went wrong while creating the user.');
 
                     // Create a JWT to the created User
                     const token = JwtGenerator.generateJwt(user, function(token) {
@@ -76,11 +62,8 @@ module.exports = class UserController {
                             email: user.email,
                             token: token
                         };
-    
-                        return res.send({
-                            Result: "Success",
-                            Message: userToSend
-                        });
+
+                        RequestController.sendSuccess(res, userToSend);
     
                     });
 
@@ -90,10 +73,7 @@ module.exports = class UserController {
 
         } catch (error) {
 
-            return res.send({
-                Result: "Error",
-                Message: error
-            });
+            RequestController.sendError(res, error);
 
         }
 
@@ -114,33 +94,21 @@ module.exports = class UserController {
 
             // Check if all data needed is there
             if(!email || !data.password)
-                return res.send({
-                    Result: "Error",
-                    Message: "Some needed data not received."
-                });
+                RequestController.sendError(res, 'Some needed data not received.');
 
             // Check if data is how it should be
             if(!email.match(/^[\w\.]+@([\w-]+\.)+[\w-]{2,4}$/g))
-                return res.send({
-                    Result: "Error",
-                    Message: "Email should be a valid email address."
-                });
+                RequestController.sendError(res, 'Email should be a valid email address.');
 
             // Check if exists a user with that email
             UserFinder.findUserByEmail(email, function(user) {
 
                 if(!user)
-                    return res.send({
-                        Result: "Error",
-                        Message: "Any user exists with that email."
-                    });
+                    RequestController.sendError(res, 'Any user exists with that email.');
 
                 // Compare passwords to check if they match
                 if(!bcrypt.compareSync(data.password, user.password))
-                    return res.send({
-                        Result: "Error",
-                        Message: "Wrong password."
-                    });
+                    RequestController.sendError(res, 'Wrong password.');
 
                 // Create a JWT to the created User
                 const token = JwtGenerator.generateJwt(user, function(token) {
@@ -152,10 +120,7 @@ module.exports = class UserController {
                         token: token
                     };
 
-                    return res.send({
-                        Result: "Success",
-                        Message: userToSend
-                    });
+                    RequestController.sendSuccess(res, userToSend);
 
                 });
 
@@ -164,10 +129,7 @@ module.exports = class UserController {
 
         } catch (error) {
 
-            return res.send({
-                Result: "Error",
-                Message: error
-            });
+            RequestController.sendError(res, error);
 
         }
 
