@@ -86,8 +86,9 @@ module.exports = class UserController {
 
             /**
              * For get a User, we need his email and his password
-             * This is like a Login, only the user data will be 
-             * given if you provide his credentials.
+             * This is a Login, only the user data will be 
+             * given if you provide his credentials, but never
+             * his password.
              */
 
             const data = req.body;
