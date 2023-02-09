@@ -5,6 +5,7 @@
  */
 
 const JwtGenerator = require('../services/JwtGenerator.js');
+const JwtVerifier = require('../services/JwtVerifier.js');
 const PasswordEncryptor = require('../services/PasswordEncryptor.js');
 const PasswordComparer = require('../services/PasswordComparer.js');
 const RequestController = require('../controllers/RequestContoller.js');
@@ -128,6 +129,35 @@ module.exports = class UserController {
 
             });
 
+
+        } catch (error) {
+
+            RequestController.sendError(res, error);
+
+        }
+
+    }
+
+    static isAuthenticated(req, res, next) {
+
+        try {
+
+            /**
+             * .
+             */
+
+            const token = req.body.token;
+
+            // Check if all data needed is there
+            if(!token)
+                RequestController.sendError(res, 'Authorization token not send.');
+
+            else {
+
+                JwtVerifier.verifyJwt(token);
+                return next();
+
+            }
 
         } catch (error) {
 
