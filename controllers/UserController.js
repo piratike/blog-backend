@@ -143,7 +143,9 @@ module.exports = class UserController {
         try {
 
             /**
-             * .
+             * Function to authorise users to access our data
+             * using the token they must send with the
+             * request.
              */
 
             const token = req.body.token;
