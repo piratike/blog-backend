@@ -13,8 +13,9 @@ const ArticleController = require('../controllers/ArticleController.js');
 Router.post('/users', UserController.createNewUser);
 Router.get('/users/:userEmail', UserController.getUser);
 
-// Protected endpoints
+// Articles endpoints
 Router.post('/articles', AuthenticationMiddleware.isAuthenticated, ArticleController.createNewArticle);
-Router.get('/articles/:articleId', AuthenticationMiddleware.isAuthenticated, ArticleController.getArticle);
+Router.get('/articles', ArticleController.getAllArticles);
+Router.get('/articles/:articleId', ArticleController.getArticle);
 
 module.exports = Router;

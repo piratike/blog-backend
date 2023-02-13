@@ -110,4 +110,30 @@ module.exports = class ArticleController {
 
     }
 
+    static getAllArticles(req, res) {
+
+        try {
+
+            /**
+             * Returns all Articles
+             */
+
+            ArticleFinder.findAllArticles(function(articles) {
+
+                if(!articles)
+                    return RequestController.sendError(res, 'Something went wrong.');
+
+                else
+                    return RequestController.sendSuccess(res, articles);
+
+            });
+
+        } catch (error) {
+
+            return RequestController.sendError(res, error);
+
+        }
+
+    }
+
 }

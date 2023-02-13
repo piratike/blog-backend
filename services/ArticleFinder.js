@@ -59,4 +59,30 @@ module.exports = class ArticleFinder {
 
     }
 
+    static findAllArticles(callback) {
+
+        try {
+
+            // Search for the Articles in the database
+            return Article.find({}, function(err, articles) {
+
+                if(err)
+                    callback(false);
+
+                else
+                    callback(articles);
+
+            });
+
+        } catch (error) {
+
+            return res.send({
+                Result: "Error",
+                Message: error
+            });
+
+        }
+
+    }
+
 }
