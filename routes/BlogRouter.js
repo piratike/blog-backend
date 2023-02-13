@@ -6,13 +6,13 @@
 const express = require('express');
 const Router = express.Router();
 const UserController = require('../controllers/UserController.js');
-// const RequestController = require('../controllers/RequestContoller.js');
+const ArticleController = require('../controllers/ArticleController.js');
 
+// Login endpoints
 Router.post('/users', UserController.createNewUser);
 Router.get('/users/:userEmail', UserController.getUser);
 
-// Router.get('/testing', UserController.isAuthenticated, function(req, res) {
-//     RequestController.sendSuccess(res, 'HI PUSHIE');
-// });
+// Protected endpoints
+Router.post('/articles', UserController.isAuthenticated, ArticleController.createNewArticle);
 
 module.exports = Router;

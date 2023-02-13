@@ -31,20 +31,21 @@ module.exports = class UserController {
 
             // Check if all data needed is there
             if(!data.name || !data.email || !data.password)
-                RequestController.sendError(res, 'Some needed data not received.');
+                return RequestController.sendError(res, 'Some needed data not received.');
 
+            console.log('HERE');
             // Check if data is how it should be
             if(!UserNameValidator.isValidName(data.name))
-                RequestController.sendError(res, 'Name should use 3 or more letters.');
+                return RequestController.sendError(res, 'Name should use 3 or more letters.');
 
             if(!UserEmailValidator.isValidEmail(data.email))
-                RequestController.sendError(res, 'Email should be a valid email address.');
+                return RequestController.sendError(res, 'Email should be a valid email address.');
 
             // Check if exists a user with that email
             UserFinder.findUserByEmail(data.email, function(user) {
 
                 if(user)
-                    RequestController.sendError(res, 'An user with that email already exists.');
+                    return RequestController.sendError(res, 'An user with that email already exists.');
 
                 // Encrypt user password
                 data.password = PasswordEncryptor.encryptPassword(data.password);
@@ -53,7 +54,7 @@ module.exports = class UserController {
                 UserCreator.createUser(data, function(newUser) {
 
                     if(!newUser)
-                        RequestController.sendError(res, 'Something went wrong while creating the user.');
+                        return RequestController.sendError(res, 'Something went wrong while creating the user.');
 
                     // Create a JWT to the created User
                     const token = JwtGenerator.generateJwt(user, function(token) {
@@ -65,7 +66,7 @@ module.exports = class UserController {
                             token: token
                         };
 
-                        RequestController.sendSuccess(res, userToSend);
+                        return RequestController.sendSuccess(res, userToSend);
     
                     });
 
@@ -75,7 +76,7 @@ module.exports = class UserController {
 
         } catch (error) {
 
-            RequestController.sendError(res, error);
+            return RequestController.sendError(res, error);
 
         }
 
@@ -97,21 +98,21 @@ module.exports = class UserController {
 
             // Check if all data needed is there
             if(!email || !data.password)
-                RequestController.sendError(res, 'Some needed data not received.');
+                return RequestController.sendError(res, 'Some needed data not received.');
 
             // Check if data is how it should be
             if(!UserEmailValidator.isValidEmail(email))
-                RequestController.sendError(res, 'Email should be a valid email address.');
+                return RequestController.sendError(res, 'Email should be a valid email address.');
 
             // Check if exists a user with that email
             UserFinder.findUserByEmail(email, function(user) {
 
                 if(!user)
-                    RequestController.sendError(res, 'Any user exists with that email.');
+                    return RequestController.sendError(res, 'Any user exists with that email.');
 
                 // Compare passwords to check if they match
                 if(!PasswordComparer.comparePasswords(data.password, user.password))
-                    RequestController.sendError(res, 'Wrong password.');
+                    return RequestController.sendError(res, 'Wrong password.');
 
                 // Create a JWT to the created User
                 const token = JwtGenerator.generateJwt(user, function(token) {
@@ -123,7 +124,7 @@ module.exports = class UserController {
                         token: token
                     };
 
-                    RequestController.sendSuccess(res, userToSend);
+                    return RequestController.sendSuccess(res, userToSend);
 
                 });
 
@@ -132,7 +133,7 @@ module.exports = class UserController {
 
         } catch (error) {
 
-            RequestController.sendError(res, error);
+            return RequestController.sendError(res, error);
 
         }
 
@@ -152,7 +153,7 @@ module.exports = class UserController {
 
             // Check if all data needed is there
             if(!token)
-                RequestController.sendError(res, 'Authorization token not send.');
+                return RequestController.sendError(res, 'Authorization token not send.');
 
             else {
 
@@ -163,7 +164,7 @@ module.exports = class UserController {
 
         } catch (error) {
 
-            RequestController.sendError(res, error);
+            return RequestController.sendError(res, error);
 
         }
 

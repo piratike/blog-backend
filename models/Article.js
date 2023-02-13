@@ -18,7 +18,9 @@ const ArticleSchema = new Mongoose.Schema({
     user: {
         type: Mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    },
+    }
+},
+{
     timestamps: {
         createdAt: 'created_at',
         updatedAt: 'updated_at'

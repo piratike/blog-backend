@@ -7,7 +7,7 @@ module.exports = class ArticleTitleValidator {
 
     static isValidTitle(title) {
 
-        return title.match(/^([A-Za-z]{2,})+$/g);
+        return title.match(/^([A-Za-z 0-9¿?.,:;-_()$€%&#@!¡]{5,})+$/g);
 
     }
 

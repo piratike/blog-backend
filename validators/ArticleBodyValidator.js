@@ -7,7 +7,7 @@ module.exports = class ArticleBodyValidator {
 
     static isValidBody(body) {
 
-        return body.match(/(?s)((?:[^\n][\n]?)+)/g);
+        return body.match(/^([A-Za-z 0-9¿?.,:;-_()$€%&#@!¡])+$/g);
 
     }
 
