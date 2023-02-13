@@ -14,5 +14,6 @@ Router.get('/users/:userEmail', UserController.getUser);
 
 // Protected endpoints
 Router.post('/articles', UserController.isAuthenticated, ArticleController.createNewArticle);
+Router.get('/articles/:articleId', UserController.isAuthenticated, ArticleController.getArticle);
 
 module.exports = Router;

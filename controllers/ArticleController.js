@@ -77,4 +77,37 @@ module.exports = class ArticleController {
 
     }
 
+    static getArticle(req, res) {
+
+        try {
+
+            /**
+             * Returns an Article by a given title
+             */
+
+            const id = req.params.articleId;
+
+            // Check if all data needed is there
+            if(!id)
+                return RequestController.sendError(res, 'Some needed data not received.');
+
+            // Check if exists an article with that title to send it
+            ArticleFinder.findArticleById(id, function(article) {
+
+                if(!article)
+                    return RequestController.sendError(res, 'An article with that email does not exists.');
+
+                else
+                    return RequestController.sendSuccess(res, article);
+
+            });
+
+        } catch (error) {
+
+            return RequestController.sendError(res, error);
+
+        }
+
+    }
+
 }
