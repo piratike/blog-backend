@@ -7,6 +7,7 @@
 const RequestController = require('../controllers/RequestContoller.js');
 const JwtVerifier = require('../services/JwtVerifier.js');
 const ArticleCreator = require('../services/ArticleCreator.js');
+const ArticleFinder = require('../services/ArticleFinder.js');
 const ArticleTitleValidator = require('../validators/ArticleTitleValidator.js');
 const ArticleBodyValidator = require('../validators/ArticleBodyValidator.js');
 
@@ -14,7 +15,7 @@ module.exports = class ArticleController {
 
     static createNewArticle(req, res) {
 
-//        try {
+        try {
 
             /**
              * For a new Article is needed:
@@ -42,37 +43,37 @@ module.exports = class ArticleController {
                 return RequestController.sendError(res, 'Body should have some content.');
 
             // Check if exists an article with that title
-            //ArticleFinder.findArticleByTitle(data.title, function(article) {
+            ArticleFinder.findArticleByTitle(data.title, function(article) {
 
-                //if(article)
-                    //return RequestController.sendError(res, 'An article with that email already exists.');
+                if(article)
+                    return RequestController.sendError(res, 'An article with that email already exists.');
 
-            // Create the Article
-            ArticleCreator.createArticle(data, function(newArticle) {
+                // Create the Article
+                ArticleCreator.createArticle(data, function(newArticle) {
 
-                if(!newArticle)
-                    return RequestController.sendError(res, 'Something went wrong while creating the article.');
+                    if(!newArticle)
+                        return RequestController.sendError(res, 'Something went wrong while creating the article.');
 
-                const articleToSend = {
-                    id: newArticle._id,
-                    title: newArticle.title,
-                    body: newArticle.body,
-                    user: newArticle.user,
-                    created_at: newArticle.created_at,
-                    updated_at: newArticle.updated_at,
-                };
+                    const articleToSend = {
+                        id: newArticle._id,
+                        title: newArticle.title,
+                        body: newArticle.body,
+                        user: newArticle.user,
+                        created_at: newArticle.created_at,
+                        updated_at: newArticle.updated_at,
+                    };
 
-                return RequestController.sendSuccess(res, articleToSend);
+                    return RequestController.sendSuccess(res, articleToSend);
+
+                });
 
             });
 
-            //});
+        } catch (error) {
 
-//        } catch (error) {
+            return RequestController.sendError(res, error);
 
-//            return RequestController.sendError(res, error);
-
-//        }
+        }
 
     }
 

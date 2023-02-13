@@ -11,6 +11,7 @@ module.exports = class UserFinder {
 
         try {
 
+            // Search for the User email in the database
             return User.findOne({ email: email }, function(err, user) {
 
                 if(err || !user)
