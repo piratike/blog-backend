@@ -9,6 +9,7 @@ const JwtVerifier = require('../services/JwtVerifier.js');
 const ArticleCreator = require('../services/ArticleCreator.js');
 const ArticleFinder = require('../services/ArticleFinder.js');
 const ArticleUpdater = require('../services/ArticleUpdater.js');
+const ArticleRemover = require('../services/ArticleRemover.js');
 const ArticleTitleValidator = require('../validators/ArticleTitleValidator.js');
 const ArticleBodyValidator = require('../validators/ArticleBodyValidator.js');
 
@@ -171,6 +172,45 @@ module.exports = class ArticleController {
                     return RequestController.sendError(res, 'Something went wrong, the Article does not exists or the token is not from the author.');
 
                 return RequestController.sendSuccess(res, article);
+
+
+            });
+
+        } catch (error) {
+
+            return RequestController.sendError(res, error);
+
+        }
+
+    }
+
+    static deleteArticle(req, res) {
+
+        try {
+
+            /**
+             * For delete an Article is needed:
+             * - Article ID
+             * - Token, where we get user ID
+             */
+
+            const tokenInfo = JwtVerifier.verifyJwt(req.body.token);
+            const data = {
+                article_id: req.params.articleId,
+                user_id: tokenInfo.user_id
+            };
+
+            // Check if all data needed is there
+            if(!data.article_id)
+                return RequestController.sendError(res, 'Some needed data not received.');
+
+            // Delete the Article
+            ArticleRemover.deleteArticle(data, function(article) {
+
+                if(!article)
+                    return RequestController.sendError(res, 'Something went wrong, the Article does not exists or the token is not from the author.');
+
+                return RequestController.sendSuccess(res, 'Article removed.');
 
 
             });

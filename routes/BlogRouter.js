@@ -18,5 +18,6 @@ Router.post('/articles', AuthenticationMiddleware.isAuthenticated, ArticleContro
 Router.get('/articles', ArticleController.getAllArticles);
 Router.get('/articles/:articleId', ArticleController.getArticle);
 Router.put('/articles/:articleId', AuthenticationMiddleware.isAuthenticated, ArticleController.updateArticle);
+Router.delete('/articles/:articleId', AuthenticationMiddleware.isAuthenticated, ArticleController.deleteArticle);
 
 module.exports = Router;
