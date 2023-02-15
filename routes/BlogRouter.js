@@ -17,5 +17,6 @@ Router.get('/users/:userEmail', UserController.getUser);
 Router.post('/articles', AuthenticationMiddleware.isAuthenticated, ArticleController.createNewArticle);
 Router.get('/articles', ArticleController.getAllArticles);
 Router.get('/articles/:articleId', ArticleController.getArticle);
+Router.put('/articles/:articleId', AuthenticationMiddleware.isAuthenticated, ArticleController.updateArticle);
 
 module.exports = Router;

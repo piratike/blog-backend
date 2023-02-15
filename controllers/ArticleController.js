@@ -8,6 +8,7 @@ const RequestController = require('../controllers/RequestContoller.js');
 const JwtVerifier = require('../services/JwtVerifier.js');
 const ArticleCreator = require('../services/ArticleCreator.js');
 const ArticleFinder = require('../services/ArticleFinder.js');
+const ArticleUpdater = require('../services/ArticleUpdater.js');
 const ArticleTitleValidator = require('../validators/ArticleTitleValidator.js');
 const ArticleBodyValidator = require('../validators/ArticleBodyValidator.js');
 
@@ -46,7 +47,7 @@ module.exports = class ArticleController {
             ArticleFinder.findArticleByTitle(data.title, function(article) {
 
                 if(article)
-                    return RequestController.sendError(res, 'An article with that email already exists.');
+                    return RequestController.sendError(res, 'An article with that title already exists.');
 
                 // Create the Article
                 ArticleCreator.createArticle(data, function(newArticle) {
@@ -95,10 +96,9 @@ module.exports = class ArticleController {
             ArticleFinder.findArticleById(id, function(article) {
 
                 if(!article)
-                    return RequestController.sendError(res, 'An article with that email does not exists.');
+                    return RequestController.sendError(res, 'An article with that ID does not exists.');
 
-                else
-                    return RequestController.sendSuccess(res, article);
+                return RequestController.sendSuccess(res, article);
 
             });
 
@@ -123,8 +123,56 @@ module.exports = class ArticleController {
                 if(!articles)
                     return RequestController.sendError(res, 'Something went wrong.');
 
-                else
-                    return RequestController.sendSuccess(res, articles);
+                return RequestController.sendSuccess(res, articles);
+
+            });
+
+        } catch (error) {
+
+            return RequestController.sendError(res, error);
+
+        }
+
+    }
+
+    static updateArticle(req, res) {
+
+        try {
+
+            /**
+             * For update an Article is needed:
+             * - Article ID
+             * - Token, where we get user ID
+             */
+
+            const tokenInfo = JwtVerifier.verifyJwt(req.body.token);
+            const data = {
+                article_id: req.params.articleId,
+                article_title: req.body.title,
+                article_body: req.body.body,
+                user_id: tokenInfo.user_id
+            };
+
+            // Check if all data needed is there
+            if(!data.article_id || !data.article_title || !data.article_body)
+                return RequestController.sendError(res, 'Some needed data not received.');
+
+            // Check if data is how it should be
+            if(!ArticleTitleValidator.isValidTitle(data.article_title))
+                return RequestController.sendError(res, 'Title should be a valid article title.');
+
+            if(!ArticleBodyValidator.isValidBody(data.article_body))
+                return RequestController.sendError(res, 'Body should have some content.');
+
+            // Check if exists an article with that ID
+
+            ArticleUpdater.updateArticle(data, function(article) {
+
+                if(!article)
+                    return RequestController.sendError(res, 'An article with that ID does not exists.');
+
+                return RequestController.sendSuccess(res, article);
+
 
             });
 
