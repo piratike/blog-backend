@@ -13,7 +13,8 @@ module.exports = class ArticleUpdater {
 
             // Update the Article in the database
             Article.findOneAndUpdate({
-                _id: data.article_id
+                _id: data.article_id,
+                user: data.user_id
             },{
                 title: data.article_title,
                 body: data.article_body,

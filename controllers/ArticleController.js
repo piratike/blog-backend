@@ -164,12 +164,11 @@ module.exports = class ArticleController {
             if(!ArticleBodyValidator.isValidBody(data.article_body))
                 return RequestController.sendError(res, 'Body should have some content.');
 
-            // Check if exists an article with that ID
-
+            // Update the Article
             ArticleUpdater.updateArticle(data, function(article) {
 
                 if(!article)
-                    return RequestController.sendError(res, 'An article with that ID does not exists.');
+                    return RequestController.sendError(res, 'Something went wrong, the Article does not exists or the token is not from the author.');
 
                 return RequestController.sendSuccess(res, article);
 
