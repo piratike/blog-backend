@@ -20,4 +20,11 @@ Router.get('/articles/:articleId', ArticleController.getArticle);
 Router.put('/articles/:articleId', AuthenticationMiddleware.isAuthenticated, ArticleController.updateArticle);
 Router.delete('/articles/:articleId', AuthenticationMiddleware.isAuthenticated, ArticleController.deleteArticle);
 
+// Likes endpoints
+// Router.post('/likes', AuthenticationMiddleware.isAuthenticated, LikeController.createNewLike);
+// Router.get('/likes', LikeController.getAllLikes);
+// Router.get('/likes/:likeId', LikeController.getLike);
+// Router.put('/likes/:likeId', AuthenticationMiddleware.isAuthenticated, LikeController.updateLike);
+// Router.delete('/likes/:likeId', AuthenticationMiddleware.isAuthenticated, LikeController.deleteLike);
+
 module.exports = Router;
