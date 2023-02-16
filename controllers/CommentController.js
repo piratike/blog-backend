@@ -64,4 +64,36 @@ module.exports = class CommentController {
 
     }
 
+    static getComment(req, res) {
+
+        try {
+
+            /**
+             * Returns a Comment
+             */
+
+            const id = req.params.commentId;
+
+            // Check if all data needed is there
+            if(!id)
+                return RequestController.sendError(res, 'Some needed data not received.');
+
+            // Check if exists a comment with that id to send it
+            CommentFinder.findCommentById(id, function(comment) {
+
+                if(!comment)
+                    return RequestController.sendError(res, 'A comment with that ID does not exists.');
+
+                return RequestController.sendSuccess(res, comment);
+
+            });
+
+        } catch (error) {
+
+            return RequestController.sendError(res, error);
+
+        }
+
+    }
+
 }
