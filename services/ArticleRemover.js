@@ -11,7 +11,7 @@ module.exports = class ArticleRemover {
 
         try {
 
-            // Update the Article in the database
+            // Remove the Article from the database
             Article.findOneAndRemove({
                 _id: data.article_id,
                 user: data.user_id

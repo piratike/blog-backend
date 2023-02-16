@@ -8,6 +8,7 @@ const RequestController = require('../controllers/RequestContoller.js');
 const JwtVerifier = require('../services/JwtVerifier.js');
 const LikeCreator = require('../services/LikeCreator.js');
 const LikeFinder = require('../services/LikeFinder.js');
+const LikeRemover = require('../services/LikeRemover.js');
 
 module.exports = class LikeController {
 
@@ -50,6 +51,44 @@ module.exports = class LikeController {
         } catch (error) {
 
             return RequestContoller.sendError(res, error);
+
+        }
+
+    }
+
+    static deleteLike(req, res) {
+
+        try {
+
+            /**
+             * For delete an Like is needed:
+             * - Like ID
+             * - Token, where we get user ID
+             */
+
+            const tokenInfo = JwtVerifier.verifyJwt(req.body.token);
+            const data = {
+                like_id: req.params.likeId,
+                user_id: tokenInfo.user_id
+            };
+
+            // Check if all data needed is there
+            if(!data.like_id)
+                return RequestController.sendError(res, 'Some needed data not received.');
+
+            // Delete the Article
+            LikeRemover.deleteLike(data, function(like) {
+
+                if(!like)
+                    return RequestController.sendError(res, 'Something went wrong, the Like does not exists or the token is not from the author.');
+
+                return RequestController.sendSuccess(res, 'Like removed.');
+
+            });
+
+        } catch (error) {
+
+            return RequestController.sendError(res, error);
 
         }
 

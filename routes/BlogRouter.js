@@ -25,7 +25,6 @@ Router.delete('/articles/:articleId', AuthenticationMiddleware.isAuthenticated, 
 Router.post('/likes', AuthenticationMiddleware.isAuthenticated, LikeController.createNewLike);
 // Router.get('/likes', LikeController.getAllLikes);
 // Router.get('/likes/:likeId', LikeController.getLike);
-// Router.put('/likes/:likeId', AuthenticationMiddleware.isAuthenticated, LikeController.updateLike);
-// Router.delete('/likes/:likeId', AuthenticationMiddleware.isAuthenticated, LikeController.deleteLike);
+Router.delete('/likes/:likeId', AuthenticationMiddleware.isAuthenticated, LikeController.deleteLike);
 
 module.exports = Router;
