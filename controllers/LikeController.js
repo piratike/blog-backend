@@ -32,7 +32,7 @@ module.exports = class LikeController {
             if(!data.article_id || !data.user_id)
                 return RequestController.sendError(res, 'Some needed data not received.');
 
-            LikeFinder.findLikeById(data.article_id, function(like) {
+            LikeFinder.findLike(data, function(like) {
 
                 if(like)
                     return RequestController.sendError(res, 'Already exists a like from that user in that article.');
@@ -51,6 +51,31 @@ module.exports = class LikeController {
         } catch (error) {
 
             return RequestContoller.sendError(res, error);
+
+        }
+
+    }
+
+    static getLikesFromArticle(req, res) {
+
+        try {
+
+            /**
+             * Returns all Likes from an Article
+             */
+
+            LikeFinder.findLikesFromArticle(req.params.articleId, function(likes) {
+
+                if(!likes)
+                    return RequestController.sendError(res, 'Something went wrong.');
+
+                return RequestController.sendSuccess(res, likes);
+
+            });
+
+        } catch (error) {
+
+            return RequestController.sendError(res, error);
 
         }
 
