@@ -5,9 +5,10 @@
 
 const express = require('express');
 const Router = express.Router();
-const UserController = require('../controllers/UserController.js');
 const AuthenticationMiddleware = require('../middleware/Authentication.js');
+const UserController = require('../controllers/UserController.js');
 const ArticleController = require('../controllers/ArticleController.js');
+const LikeController = require('../controllers/LikeController.js');
 
 // Login endpoints
 Router.post('/users', UserController.createNewUser);
@@ -21,7 +22,7 @@ Router.put('/articles/:articleId', AuthenticationMiddleware.isAuthenticated, Art
 Router.delete('/articles/:articleId', AuthenticationMiddleware.isAuthenticated, ArticleController.deleteArticle);
 
 // Likes endpoints
-// Router.post('/likes', AuthenticationMiddleware.isAuthenticated, LikeController.createNewLike);
+Router.post('/likes', AuthenticationMiddleware.isAuthenticated, LikeController.createNewLike);
 // Router.get('/likes', LikeController.getAllLikes);
 // Router.get('/likes/:likeId', LikeController.getLike);
 // Router.put('/likes/:likeId', AuthenticationMiddleware.isAuthenticated, LikeController.updateLike);

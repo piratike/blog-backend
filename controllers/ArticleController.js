@@ -56,16 +56,7 @@ module.exports = class ArticleController {
                     if(!newArticle)
                         return RequestController.sendError(res, 'Something went wrong while creating the article.');
 
-                    const articleToSend = {
-                        id: newArticle._id,
-                        title: newArticle.title,
-                        body: newArticle.body,
-                        user: newArticle.user,
-                        created_at: newArticle.created_at,
-                        updated_at: newArticle.updated_at,
-                    };
-
-                    return RequestController.sendSuccess(res, articleToSend);
+                    return RequestController.sendSuccess(res, newArticle);
 
                 });
 
