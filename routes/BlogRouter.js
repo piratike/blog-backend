@@ -27,7 +27,7 @@ Router.post('/comments', AuthenticationMiddleware.isAuthenticated, CommentContro
 Router.get('/comments/:articleId', CommentController.getCommentsFromArticle);
 Router.get('/comments/:commentId', CommentController.getComment);
 Router.put('/comments/:commentId', AuthenticationMiddleware.isAuthenticated, CommentController.updateComment);
-// Router.delete('/comments/:commentId', AuthenticationMiddleware.isAuthenticated, CommentController.removeComment);
+Router.delete('/comments/:commentId', AuthenticationMiddleware.isAuthenticated, CommentController.removeComment);
 
 // Likes endpoints
 Router.post('/likes', AuthenticationMiddleware.isAuthenticated, LikeController.createNewLike);
