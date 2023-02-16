@@ -64,6 +64,38 @@ module.exports = class CommentController {
 
     }
 
+    static getCommentsFromArticle(req, res) {
+
+        try {
+
+            /**
+             * Returns a Comment
+             */
+
+            const article_id = req.params.articleId;
+
+            // Check if all data needed is there
+            if(!article_id)
+                return RequestController.sendError(res, 'Some needed data not received.');
+
+            // Check if exists a comment with that id to send it
+            CommentFinder.findCommentsFromArticle(article_id, function(comments) {
+
+                if(!comments)
+                    return RequestController.sendError(res, 'Something went wrong.');
+
+                return RequestController.sendSuccess(res, comments);
+
+            });
+
+        } catch (error) {
+
+            return RequestController.sendError(res, error);
+
+        }
+
+    }
+
     static getComment(req, res) {
 
         try {

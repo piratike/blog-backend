@@ -24,7 +24,7 @@ Router.delete('/articles/:articleId', AuthenticationMiddleware.isAuthenticated, 
 
 // Comments endpoints
 Router.post('/comments', AuthenticationMiddleware.isAuthenticated, CommentController.createNewComment);
-// Router.get('/comments/:articleId', CommentController.getCommentsFromArticle);
+Router.get('/comments/:articleId', CommentController.getCommentsFromArticle);
 Router.get('/comments/:commentId', CommentController.getComment);
 // Router.put('/comments/:commentId', AuthenticationMiddleware.isAuthenticated, CommentController.updateComment);
 // Router.delete('/comments/:commentId', AuthenticationMiddleware.isAuthenticated, CommentController.removeComment);

@@ -33,6 +33,32 @@ module.exports = class CommentFinder {
 
     }
 
+    static findCommentsFromArticle(article_id, callback) {
+
+        try {
+
+            // Search for the Comment in the Article
+            return Comment.find({ article: article_id }, function(err, comments) {
+
+                if(err)
+                    callback(false);
+
+                else
+                    callback(comments);
+
+            });
+
+        } catch (error) {
+
+            return res.send({
+                Result: "Error",
+                Message: error
+            });
+
+        }
+
+    }
+
     static findCommentById(id, callback) {
 
         try {

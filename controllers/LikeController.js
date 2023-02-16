@@ -64,7 +64,13 @@ module.exports = class LikeController {
              * Returns all Likes from an Article
              */
 
-            LikeFinder.findLikesFromArticle(req.params.articleId, function(likes) {
+            const article_id = req.params.articleId;
+
+            // Check if all data needed is there
+            if(!article_id)
+                return RequestController.sendError(res, 'Some needed data not received.');
+
+            LikeFinder.findLikesFromArticle(article_id, function(likes) {
 
                 if(!likes)
                     return RequestController.sendError(res, 'Something went wrong.');
