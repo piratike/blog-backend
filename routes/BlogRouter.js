@@ -8,6 +8,7 @@ const Router = express.Router();
 const AuthenticationMiddleware = require('../middleware/Authentication.js');
 const UserController = require('../controllers/UserController.js');
 const ArticleController = require('../controllers/ArticleController.js');
+const CommentController = require('../controllers/CommentController.js');
 const LikeController = require('../controllers/LikeController.js');
 
 // Login endpoints
@@ -22,7 +23,7 @@ Router.put('/articles/:articleId', AuthenticationMiddleware.isAuthenticated, Art
 Router.delete('/articles/:articleId', AuthenticationMiddleware.isAuthenticated, ArticleController.removeArticle);
 
 // Comments endpoints
-// Router.post('/comments', AuthenticationMiddleware.isAuthenticated, CommentController.createNewComment);
+Router.post('/comments', AuthenticationMiddleware.isAuthenticated, CommentController.createNewComment);
 // Router.get('/comments/:articleId', CommentController.getCommentsFromArticle);
 // Router.get('/comments/:commentId', CommentController.getComment);
 // Router.put('/comments/:commentId', AuthenticationMiddleware.isAuthenticated, CommentController.updateComment);
