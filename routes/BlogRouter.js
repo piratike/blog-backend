@@ -19,11 +19,18 @@ Router.post('/articles', AuthenticationMiddleware.isAuthenticated, ArticleContro
 Router.get('/articles', ArticleController.getAllArticles);
 Router.get('/articles/:articleId', ArticleController.getArticle);
 Router.put('/articles/:articleId', AuthenticationMiddleware.isAuthenticated, ArticleController.updateArticle);
-Router.delete('/articles/:articleId', AuthenticationMiddleware.isAuthenticated, ArticleController.deleteArticle);
+Router.delete('/articles/:articleId', AuthenticationMiddleware.isAuthenticated, ArticleController.removeArticle);
+
+// Comments endpoints
+// Router.post('/comments', AuthenticationMiddleware.isAuthenticated, CommentController.createNewComment);
+// Router.get('/comments/:articleId', CommentController.getCommentsFromArticle);
+// Router.get('/comments/:commentId', CommentController.getComment);
+// Router.put('/comments/:commentId', AuthenticationMiddleware.isAuthenticated, CommentController.updateComment);
+// Router.delete('/comments/:commentId', AuthenticationMiddleware.isAuthenticated, CommentController.removeComment);
 
 // Likes endpoints
 Router.post('/likes', AuthenticationMiddleware.isAuthenticated, LikeController.createNewLike);
 Router.get('/likes/:articleId', LikeController.getLikesFromArticle);
-Router.delete('/likes/:likeId', AuthenticationMiddleware.isAuthenticated, LikeController.deleteLike);
+Router.delete('/likes/:likeId', AuthenticationMiddleware.isAuthenticated, LikeController.removeLike);
 
 module.exports = Router;

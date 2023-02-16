@@ -175,7 +175,7 @@ module.exports = class ArticleController {
 
     }
 
-    static deleteArticle(req, res) {
+    static removeArticle(req, res) {
 
         try {
 

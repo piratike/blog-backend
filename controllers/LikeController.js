@@ -81,7 +81,7 @@ module.exports = class LikeController {
 
     }
 
-    static deleteLike(req, res) {
+    static removeLike(req, res) {
 
         try {
 
