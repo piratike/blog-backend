@@ -27,10 +27,7 @@ module.exports = class ArticleRemover {
 
         } catch (error) {
 
-            return res.send({
-                Result: "Error",
-                Message: error
-            });
+            callback(false);
 
         }
 

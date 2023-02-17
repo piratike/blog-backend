@@ -28,10 +28,7 @@ module.exports = class ArticleCreator {
 
         } catch (error) {
 
-            return res.send({
-                Result: "Error",
-                Message: error
-            });
+            callback(false);
 
         }
 

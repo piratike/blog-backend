@@ -24,10 +24,7 @@ module.exports = class CommentFinder {
 
         } catch (error) {
 
-            return res.send({
-                Result: "Error",
-                Message: error
-            });
+            callback(false);
 
         }
 
@@ -50,10 +47,7 @@ module.exports = class CommentFinder {
 
         } catch (error) {
 
-            return res.send({
-                Result: "Error",
-                Message: error
-            });
+            callback(false);
 
         }
 
@@ -76,10 +70,7 @@ module.exports = class CommentFinder {
 
         } catch (error) {
 
-            return res.send({
-                Result: "Error",
-                Message: error
-            });
+            callback(false);
 
         }
 

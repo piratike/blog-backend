@@ -10,7 +10,15 @@ module.exports = class JwtVerifier {
 
     static verifyJwt(token) {
 
-        return jwt.verify(token, TOKEN_KEY);
+        try {
+
+            return jwt.verify(token, TOKEN_KEY);
+
+        } catch (error) {
+
+            callback(false);
+
+        }
 
     }
 

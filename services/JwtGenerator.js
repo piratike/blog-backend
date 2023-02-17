@@ -10,25 +10,33 @@ module.exports = class JwtGenerator {
 
     static generateJwt(data, callback) {
 
-        jwt.sign(
-            {
-                user_id: data._id,
-                name: data.name,
-                email: data.email
-            },
-            TOKEN_KEY,
-            {
-                expiresIn: '2h'
-            },
-            function(err, token) {
-        
-                if(err)
-                    callback(false);
+        try {
 
-                callback(token);
-        
-            }
-        );
+            jwt.sign(
+                {
+                    user_id: data._id,
+                    name: data.name,
+                    email: data.email
+                },
+                TOKEN_KEY,
+                {
+                    expiresIn: '2h'
+                },
+                function(err, token) {
+            
+                    if(err)
+                        callback(false);
+
+                    callback(token);
+            
+                }
+            );
+
+        } catch (error) {
+
+            callback(false);
+
+        }
 
     }
 

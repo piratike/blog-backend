@@ -34,10 +34,7 @@ module.exports = class ArticleUpdater {
 
         } catch (error) {
 
-            return res.send({
-                Result: "Error",
-                Message: error
-            });
+            callback(false);
 
         }
 

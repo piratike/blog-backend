@@ -9,7 +9,15 @@ module.exports = class PasswordComparer {
 
     static comparePasswords(password_given, password_stored) {
 
+        try {
+
         return bcrypt.compareSync(password_given, password_stored);
+
+        } catch (error) {
+
+            callback(false);
+
+        }
 
     }
 
