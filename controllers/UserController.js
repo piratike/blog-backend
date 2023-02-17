@@ -32,7 +32,6 @@ module.exports = class UserController {
             if(!data.name || !data.email || !data.password)
                 return RequestController.sendError(res, 'Some needed data not received.');
 
-            console.log('HERE');
             // Check if data is how it should be
             if(!UserNameValidator.isValidName(data.name))
                 return RequestController.sendError(res, 'Name should use 3 or more letters.');
