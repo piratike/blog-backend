@@ -22,7 +22,7 @@ module.exports = class UserFinder {
 
             });
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 

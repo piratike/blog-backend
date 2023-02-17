@@ -32,7 +32,7 @@ module.exports = class ArticleUpdater {
 
             });
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 

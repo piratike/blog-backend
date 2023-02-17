@@ -22,7 +22,7 @@ module.exports = class LikeFinder {
 
             });
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 
@@ -45,7 +45,7 @@ module.exports = class LikeFinder {
 
             });
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 

@@ -25,7 +25,7 @@ module.exports = class CommentRemover {
 
             });
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 

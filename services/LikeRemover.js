@@ -25,7 +25,7 @@ module.exports = class LikeRemover {
 
             });
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 

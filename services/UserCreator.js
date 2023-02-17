@@ -26,7 +26,7 @@ module.exports = class UserCreator {
 
             });
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 

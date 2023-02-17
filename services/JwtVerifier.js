@@ -14,7 +14,7 @@ module.exports = class JwtVerifier {
 
             return jwt.verify(token, TOKEN_KEY);
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 

@@ -13,7 +13,7 @@ module.exports = class PasswordComparer {
 
         return bcrypt.compareSync(password_given, password_stored);
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 

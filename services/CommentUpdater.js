@@ -32,7 +32,7 @@ module.exports = class CommentUpdater {
 
             });
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 

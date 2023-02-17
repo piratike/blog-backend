@@ -25,7 +25,7 @@ module.exports = class ArticleRemover {
 
             });
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 

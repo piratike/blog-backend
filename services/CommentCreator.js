@@ -26,7 +26,7 @@ module.exports = class CommentCreator {
 
             });
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 

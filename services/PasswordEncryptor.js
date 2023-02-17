@@ -16,7 +16,7 @@ module.exports = class PasswordEncryptor {
 
             return encryptedPassword;
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 

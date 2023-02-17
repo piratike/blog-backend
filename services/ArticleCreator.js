@@ -26,7 +26,7 @@ module.exports = class ArticleCreator {
 
             });
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 

@@ -32,7 +32,7 @@ module.exports = class JwtGenerator {
                 }
             );
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 

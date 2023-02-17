@@ -22,7 +22,7 @@ module.exports = class ArticleFinder {
 
             });
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 
@@ -45,7 +45,7 @@ module.exports = class ArticleFinder {
 
             });
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 
@@ -68,7 +68,7 @@ module.exports = class ArticleFinder {
 
             });
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 

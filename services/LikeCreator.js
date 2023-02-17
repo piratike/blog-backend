@@ -25,7 +25,7 @@ module.exports = class LikeCreator {
 
             });
 
-        } catch (error) {
+        } catch {
 
             callback(false);
 
