@@ -162,7 +162,7 @@ module.exports = class CommentController {
                 if(!comment)
                     return RequestController.sendError(res, 'Something went wrong, the Comment does not exists or the token is not from the author.');
 
-                return RequestController.sendSuccess(res, comment);
+                return RequestController.sendSuccess(res, {id: comment._id});
 
 
             });
