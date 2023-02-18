@@ -10,7 +10,7 @@ module.exports = class AuthenticationMiddleware {
 
     static isAuthenticated(req, res, next) {
 
-        try {
+        //try {
 
             /**
              * Function to authorise users to access our data
@@ -26,16 +26,18 @@ module.exports = class AuthenticationMiddleware {
 
             else {
 
-                JwtVerifier.verifyJwt(token);
-                return next();
+                if(JwtVerifier.verifyJwt(token))
+                    return next();
+
+                return RequestController.sendError(res, 'Authorization token not valid.');
 
             }
 
-        } catch (error) {
+        //} catch (error) {
 
-            return RequestController.sendError(res, error);
+        //    return RequestController.sendError(res, error);
 
-        }
+        //}
 
     }
 

@@ -16,7 +16,7 @@ module.exports = class JwtVerifier {
 
         } catch {
 
-            callback(false);
+            return false;
 
         }
 

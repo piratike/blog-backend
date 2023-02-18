@@ -56,7 +56,7 @@ module.exports = class ArticleController {
                     if(!newArticle)
                         return RequestController.sendError(res, 'Something went wrong while creating the article.');
 
-                    return RequestController.sendSuccess(res, newArticle);
+                    return RequestController.sendSuccess(res, {id: newArticle._id});
 
                 });
 
@@ -162,8 +162,7 @@ module.exports = class ArticleController {
                 if(!article)
                     return RequestController.sendError(res, 'Something went wrong, the Article does not exists or the token is not from the author.');
 
-                return RequestController.sendSuccess(res, article);
-
+                return RequestController.sendSuccess(res, {id: article._id});
 
             });
 
