@@ -55,16 +55,9 @@ module.exports = class UserController {
                         return RequestController.sendError(res, 'Something went wrong while creating the user.');
 
                     // Create a JWT to the created User
-                    const token = JwtGenerator.generateJwt(user, function(token) {
+                    JwtGenerator.generateJwt(user, function(token) {
 
-                        const userToSend = {
-                            id: user._id,
-                            name: user.name,
-                            email: user.email,
-                            token: token
-                        };
-
-                        return RequestController.sendSuccess(res, userToSend);
+                        return RequestController.sendSuccess(res, {id: user.id, token: token});
     
                     });
 
@@ -113,16 +106,9 @@ module.exports = class UserController {
                     return RequestController.sendError(res, 'Wrong password.');
 
                 // Create a JWT to the created User
-                const token = JwtGenerator.generateJwt(user, function(token) {
+                JwtGenerator.generateJwt(user, function(token) {
 
-                    const userToSend = {
-                        id: user._id,
-                        name: user.name,
-                        email: user.email,
-                        token: token
-                    };
-
-                    return RequestController.sendSuccess(res, userToSend);
+                    return RequestController.sendSuccess(res, {id: user.id, token: token});
 
                 });
 

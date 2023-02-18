@@ -15,14 +15,14 @@ module.exports = class RequestController {
              * Send a Success request to the client
              */
 
-            return res.send({
+            return res.status(200).send({
                 Result: "Success",
                 Message: message
             });
 
         } catch (error) {
 
-            return res.send({
+            return res.status(500).send({
                 Result: "Error",
                 Message: error
             });
@@ -39,7 +39,7 @@ module.exports = class RequestController {
              * Send an Error request to the client
              */
 
-            return res.send({
+            return res.status(400).send({
                 Result: "Error",
                 Message: message
             });
@@ -47,7 +47,7 @@ module.exports = class RequestController {
 
         } catch (error) {
 
-            return res.send({
+            return res.status(500).send({
                 Result: "Error",
                 Message: error
             });
