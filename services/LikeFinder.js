@@ -62,8 +62,23 @@ module.exports = class LikeFinder {
                 if(err)
                     callback(err);
 
-                else
-                    callback(likes);
+                else {
+
+                    let likes_list = [];
+
+                    for(let i = 0 ; i < likes.length ; i++) {
+
+                        if(likes_list[likes[i].article._id])
+                            likes_list[likes[i].article._id]++;
+
+                        else
+                            likes_list[likes[i].article._id] = 1;
+
+                    }
+
+                    callback(likes_list);
+
+                }
 
             });
 
