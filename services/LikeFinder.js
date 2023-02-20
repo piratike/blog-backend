@@ -57,9 +57,13 @@ module.exports = class LikeFinder {
 
         try {
 
-            return Like.find({}).populate('article').then(function(likes) {
+            return Like.find({}, function(err, likes) {
 
-                callback(likes);
+                if(err)
+                    callback(err);
+
+                else
+                    callback(likes);
 
             });
 
