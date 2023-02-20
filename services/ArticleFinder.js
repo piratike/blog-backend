@@ -6,7 +6,6 @@
 const Article = require('../models/Article.js');
 const LikeFinder = require('../services/LikeFinder.js');
 const CommentFinder = require('../services/CommentFinder.js');
-const Like = require('../models/Like.js');
 
 module.exports = class ArticleFinder {
 
@@ -43,8 +42,41 @@ module.exports = class ArticleFinder {
                 if(err || !article)
                     callback(false);
 
-                else
-                    callback(article);
+                else {
+
+                    let new_article = {
+                        _id: article._id,
+                        title: article.title,
+                        body: article.body,
+                        created_at: article.created_at,
+                        updated_at: article.updated_at,
+                        likes: 0,
+                        comments: []
+                    }
+
+                    LikeFinder.findAllLikes(function(likes) {
+
+                        if(!likes)
+                            callback(false);
+
+                        else {
+
+                            new_article.likes = likes[new_article._id];
+
+                            CommentFinder.findCommentsFromArticle(new_article._id, function(comments) {
+
+                                if(comments)
+                                    new_article.comments = comments;
+
+                                callback(new_article);
+
+                            });
+
+                        }
+
+                    });
+
+                }
 
             });
 
