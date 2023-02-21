@@ -57,7 +57,7 @@ module.exports = class UserController {
                     // Create a JWT to the created User
                     JwtGenerator.generateJwt(user, function(token) {
 
-                        return RequestController.sendSuccess(res, {id: user.id, token: token});
+                        return RequestController.sendSuccess(res, {token: token});
     
                     });
 
@@ -108,7 +108,7 @@ module.exports = class UserController {
                 // Create a JWT to the created User
                 JwtGenerator.generateJwt(user, function(token) {
 
-                    return RequestController.sendSuccess(res, {id: user.id, token: token});
+                    return RequestController.sendSuccess(res, {token: token});
 
                 });
 
