@@ -9,12 +9,12 @@ const app = require('../app.js');
  * Get a token for a User
  */
 
-describe('User creation test', () => {
+describe('Get the token for a User', () => {
 
-    it('Create a new User', function(done) {
+    it('Get the token for a User', function(done) {
 
         request(app)
-            .post('/api/users/username@email.com')
+            .get('/api/users/username@email.com')
             .set('Accept', 'application/json')
             .type('form')
             .send({
@@ -37,7 +37,7 @@ describe('User creation test', () => {
     it('Fail when no data is send', function(done) {
 
         request(app)
-            .post('/api/users')
+            .get('/api/users/username@email.com')
             .set('Accept', 'application/json')
             .type('form')
             .send({})
@@ -55,40 +55,13 @@ describe('User creation test', () => {
 
     });
 
-    it('Fail when no valid name is given', function(done) {
-
-        request(app)
-            .post('/api/users')
-            .set('Accept', 'application/json')
-            .type('form')
-            .send({
-                name: 'U',
-                email: 'username@email.com',
-                password: 'userpassword123'
-            })
-            .expect('Content-Type', /json/)
-            .expect(400)
-            .end(function(err, res) {
-
-                expect(JSON.parse(res.text).Result).toEqual('Error');
-                expect(JSON.parse(res.text).Message).toEqual('Name should use 3 or more letters.');
-
-                if(err) return done(err);
-                return done();
-
-            });
-
-    });
-
     it('Fail when no valid email is given', function(done) {
 
         request(app)
-            .post('/api/users')
+            .get('/api/users/novalidemail')
             .set('Accept', 'application/json')
             .type('form')
             .send({
-                name: 'Username',
-                email: 'novalidemail',
                 password: 'userpassword123'
             })
             .expect('Content-Type', /json/)
@@ -105,15 +78,13 @@ describe('User creation test', () => {
 
     });
 
-    it('Fail when try to create a user with an email already in use', function(done) {
+    it('Fail when try to get a token for a User that does not exists', function(done) {
 
         request(app)
-            .post('/api/users')
+            .get('/api/users/other@email.com')
             .set('Accept', 'application/json')
             .type('form')
             .send({
-                name: 'Username',
-                email: 'username@email.com',
                 password: 'userpassword123'
             })
             .expect('Content-Type', /json/)
@@ -121,7 +92,30 @@ describe('User creation test', () => {
             .end(function(err, res) {
 
                 expect(JSON.parse(res.text).Result).toEqual('Error');
-                expect(JSON.parse(res.text).Message).toEqual('An user with that email already exists.');
+                expect(JSON.parse(res.text).Message).toEqual('Any user exists with that email.');
+
+                if(err) return done(err);
+                return done();
+
+            });
+
+    });
+
+    it('Fail when give a wrong password', function(done) {
+
+        request(app)
+            .get('/api/users/username@email.com')
+            .set('Accept', 'application/json')
+            .type('form')
+            .send({
+                password: 'wrongpassword123'
+            })
+            .expect('Content-Type', /json/)
+            .expect(400)
+            .end(function(err, res) {
+
+                expect(JSON.parse(res.text).Result).toEqual('Error');
+                expect(JSON.parse(res.text).Message).toEqual('Wrong password.');
 
                 if(err) return done(err);
                 return done();
