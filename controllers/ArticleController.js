@@ -26,7 +26,7 @@ module.exports = class ArticleController {
              * - Token, where we get user ID
              */
 
-            const tokenInfo = JwtVerifier.verifyJwt(req.body.token);
+            const tokenInfo = JwtVerifier.verifyJwt(req.headers['authorization'].split(' ')[1]);
             const data = {
                 title: req.body.title,
                 body: req.body.body,
@@ -137,7 +137,7 @@ module.exports = class ArticleController {
              * - Token, where we get user ID
              */
 
-            const tokenInfo = JwtVerifier.verifyJwt(req.body.token);
+            const tokenInfo = JwtVerifier.verifyJwt(req.headers['authorization'].split(' ')[1]);
             const data = {
                 article_id: req.params.articleId,
                 article_title: req.body.title,
@@ -184,7 +184,7 @@ module.exports = class ArticleController {
              * - Token, where we get user ID
              */
 
-            const tokenInfo = JwtVerifier.verifyJwt(req.body.token);
+            const tokenInfo = JwtVerifier.verifyJwt(req.headers['authorization'].split(' ')[1]);
             const data = {
                 article_id: req.params.articleId,
                 user_id: tokenInfo.user_id

@@ -25,7 +25,7 @@ module.exports = class CommentController {
              * - Token, where we get user ID
              */
 
-            const tokenInfo = JwtVerifier.verifyJwt(req.body.token);
+            const tokenInfo = JwtVerifier.verifyJwt(req.headers['authorization'].split(' ')[1]);
             const data = {
                 body: req.body.body,
                 article_id: req.body.article_id,
@@ -140,7 +140,7 @@ module.exports = class CommentController {
              * - Token, where we get user ID
              */
 
-            const tokenInfo = JwtVerifier.verifyJwt(req.body.token);
+            const tokenInfo = JwtVerifier.verifyJwt(req.headers['authorization'].split(' ')[1]);
             const data = {
                 comment_id: req.params.commentId,
                 comment_body: req.body.body,
@@ -185,7 +185,7 @@ module.exports = class CommentController {
              * - Token, where we get user ID
              */
 
-            const tokenInfo = JwtVerifier.verifyJwt(req.body.token);
+            const tokenInfo = JwtVerifier.verifyJwt(req.headers['authorization'].split(' ')[1]);
             const data = {
                 comment_id: req.params.commentId,
                 user_id: tokenInfo.user_id

@@ -18,7 +18,7 @@ module.exports = class AuthenticationMiddleware {
              * request.
              */
 
-            const token = req.body.token;
+            const token = req.headers['authorization'].split(' ')[1];
 
             // Check if all data needed is there
             if(!token)

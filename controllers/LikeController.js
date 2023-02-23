@@ -22,7 +22,7 @@ module.exports = class LikeController {
              * - Token, where we get user ID
              */
 
-            const tokenInfo = JwtVerifier.verifyJwt(req.body.token);
+            const tokenInfo = JwtVerifier.verifyJwt(req.headers['authorization'].split(' ')[1]);
             const data = {
                 article_id: req.body.article_id,
                 user_id: tokenInfo.user_id
@@ -97,7 +97,7 @@ module.exports = class LikeController {
              * - Token, where we get user ID
              */
 
-            const tokenInfo = JwtVerifier.verifyJwt(req.body.token);
+            const tokenInfo = JwtVerifier.verifyJwt(req.headers['authorization'].split(' ')[1]);
             const data = {
                 like_id: req.params.likeId,
                 user_id: tokenInfo.user_id
